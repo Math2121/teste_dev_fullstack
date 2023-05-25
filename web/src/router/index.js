@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CadastroEletro from '../views/CadastroEletro.vue'
 import ListagemEletro from '../views/ListagemEletro.vue'
+import EditarEletro from '../views/EditarEletro.vue'
 const routes = [
   {
     path: '/cadastro',
@@ -11,6 +12,11 @@ const routes = [
     path: '/',
     name: 'ListagemEletro',
     component: ListagemEletro
+  },
+   {
+    path: '/editar',
+    name: 'EditarEletro',
+    component: EditarEletro
   },
 ]
 
