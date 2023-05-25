@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import CadastroEletro from '../views/CadastroEletro.vue'
 const routes = [
-
+  {
+    path: '/cadastro',
+    name: 'CadastroEletro',
+    component: CadastroEletro
+  },
 ]
 
 const router = createRouter({
