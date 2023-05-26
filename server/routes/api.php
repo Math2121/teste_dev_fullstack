@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EletroController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/cadastrar/eletro', [EletroController::class, 'criandoEletro']);
+
+Route::get('/eletrodomesticos', [EletroController::class, 'recuperarEletros']);
+
+Route::get('/eletrodomestico/{id}', [EletroController::class, 'recuperarEletro']);
+
+Route::put('/editar/eletrodomestico/{id}', [EletroController::class,'editandoEletro']);
+
+Route::delete('/apagar/eletrodomestico/{id}', [EletroController::class, 'deletarEletro']);
+
+
+

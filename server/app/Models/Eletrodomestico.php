@@ -13,7 +13,7 @@ class Eletrodomestico extends Model
 
     protected $fillable = [
         'nome',
-        'descicao',
+        'descricao',
         'marca',
         'tensao'
     ];
