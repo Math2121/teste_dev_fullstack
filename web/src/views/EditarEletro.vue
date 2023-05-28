@@ -4,7 +4,7 @@
       <div>
         <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
           <div class="grid gap-4 gap-y-2 text-sm grid-cols-1">
-            <form @submit.prevent="submitRegister">
+            <form @submit.prevent="submitEdit">
               <div class="grid gap-4 gap-y-5 text-sm grid-cols-1 auto-cols-max">
                 <div>
                   <label for="nome">Nome</label>
@@ -70,7 +70,7 @@
                           : 'hover:bg-blue-700'
                       "
                     >
-                      Cadastrar
+                      Editar
                     </button>
                   </div>
                 </div>
@@ -85,11 +85,12 @@
 
 <script>
 import httpClient from "../services/axios";
-import router from '@/router'; 
+import router from "@/router";
 export default {
-  name: "CadastroEletro",
+  name: "EditarEletro",
   data() {
     return {
+      userId: null,
       nome: "",
       descricao: "",
       tensao: "",
@@ -97,9 +98,20 @@ export default {
       isDisabled: false,
     };
   },
-  
+  props: ["id"],
+  mounted() {
+    this.pegarEletro(this.id);
+  },
   methods: {
-    submitRegister() {
+    pegarEletro(id) {
+      httpClient.get("eletrodomestico/" + id).then((response) => {
+        this.nome = response.data.nome;
+        this.descricao = response.data.descricao;
+        this.tensao = response.data.tensao;
+        this.marca = response.data.marca;
+      });
+    },
+    submitEdit() {
       this.isDisabled = true;
       const data = {
         nome: this.nome,
@@ -109,7 +121,7 @@ export default {
       };
 
       httpClient
-        .post("cadastrar/eletro", data)
+        .put(`editar/eletrodomestico/${this.id}`, data)
         .then((response) => {
           this.$swal({
             title: "Enviado",
@@ -119,25 +131,24 @@ export default {
           router.push("/");
         })
         .catch((error) => {
-        
           this.$swal({
             title: "Erro",
             icon: "warning",
-            html: error.response.data.message ? error.response.data.message : "<div>Houve um erro ao tentar cadastrar.Tente novamente</div>",
+            html: error.response.data.message
+              ? error.response.data.message
+              : "<div>Houve um erro ao tentar cadastrar.Tente novamente</div>",
             confirmButtonText: "Ok",
             customClass: {
               confirmButton:
                 "text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 w-full px-4 py-2",
             },
             buttonsStyling: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.pegarEletro(this.id);
+          
+            }
           });
-        })
-        .finally(() => {
-          this.nome = "";
-          this.descricao = "";
-          this.tensao = "";
-          this.marca = "";
-          this.isDisabled = false;
         });
     },
   },
