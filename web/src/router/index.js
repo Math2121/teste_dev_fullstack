@@ -14,9 +14,10 @@ const routes = [
     component: ListagemEletro
   },
    {
-    path: '/editar',
+    path: '/editar/:id',
     name: 'EditarEletro',
-    component: EditarEletro
+    component: EditarEletro,
+    props: true
   },
 ]
 
